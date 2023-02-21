@@ -1,0 +1,119 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div
+            class="col-md-6 min-vh-100 d-flex justify-content-center align-items-center"
+        >
+            <div class="card w-100">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item">
+                            <button
+                                class="nav-link"
+                                [class.active]="activeTab === 'login'"
+                                role="tab"
+                                (click)="toggle('login')"
+                            >
+                                Login
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button
+                                class="nav-link"
+                                [class.active]="activeTab === 'register'"
+                                role="tab"
+                                (click)="toggle('register')"
+                            >
+                                Register
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <!-- Login Tab -->
+                        <div
+                            role="tabpanel"
+                            class="tab-pane active"
+                            *ngIf="activeTab === 'login'"
+                        >
+                            <form
+                                class="form"
+                                (submit)="onLogin($event)"
+                                role="form"
+                                autocomplete="off"
+                            >
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg rounded-0"
+                                        name="name"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        class="form-control form-control-lg rounded-0"
+                                        name="password"
+                                        required
+                                        autocomplete="new-password"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-lg float-right mt-2"
+                                >
+                                    Login
+                                </button>
+                            </form>
+                        </div>
+                        <!-- Register Tab -->
+                        <div
+                            role="tabpanel"
+                            class="tab-pane active"
+                            *ngIf="activeTab === 'register'"
+                        >
+                            <form
+                                class="form"
+                                (submit)="onRegister($event)"
+                                role="form"
+                                autocomplete="off"
+                            >
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg rounded-0"
+                                        name="name"
+                                        id="name"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        class="form-control form-control-lg rounded-0"
+                                        name="password"
+                                        id="password"
+                                        required
+                                        autocomplete="new-password"
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-lg float-right mt-2"
+                                >
+                                    Register
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

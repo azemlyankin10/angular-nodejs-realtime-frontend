@@ -1,0 +1,39 @@
+<nav class="container px-4 navbar navbar-expand-lg navbar-light bg-light">
+    <span class="navbar-brand">Chat App</span>
+
+    <div class="show ms-auto">
+        <div class="navbar-nav ms-auto">
+            <div class="nav-item dropdown">
+                <button
+                    (click)="toggleNav()"
+                    class="btn dropdown-toggle d-flex align-items-center"
+                >
+                    <span class="me-1">Andrii</span>
+                    <img
+                        class="rounded-circle"
+                        src="https://via.placeholder.com/50x50"
+                        alt="User Profile"
+                        width="30"
+                        height="30"
+                    />
+                </button>
+                <div type="button" class="dropdown-menu show" *ngIf="isOpenNav">
+                    <button type="button" class="btn dropdown-item">
+                        Profile
+                    </button>
+                    <button type="button" class="btn dropdown-item">
+                        Settings
+                    </button>
+                    <div type="button" class="dropdown-divider"></div>
+                    <button
+                        (click)="logout()"
+                        type="button"
+                        class="btn dropdown-item"
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

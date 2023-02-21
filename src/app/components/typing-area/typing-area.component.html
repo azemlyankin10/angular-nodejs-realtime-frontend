@@ -1,9 +1,9 @@
-<form class="bg-light">
+<form class="bg-light" (ngSubmit)="onSubmit($event)">
     <div class="input-group">
         <input
             type="text"
             placeholder="Type a message"
-            aria-describedby="button-addon2"
+            name="messageInput"
             class="form-control rounded-0 border-0 py-4 bg-light"
         />
         <div class="input-group-append">

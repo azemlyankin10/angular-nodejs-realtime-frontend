@@ -3,8 +3,17 @@
     class="px-4 py-5 chat-box bg-white d-flex flex-column overflow-y-scroll"
 >
     <!-- Sender Message-->
-    <app-sender-message-card></app-sender-message-card>
+    <!-- <app-sender-message-card></app-sender-message-card> -->
 
     <!-- Reciever Message-->
-    <app-reciever-message-card></app-reciever-message-card>
+    <!-- <app-reciever-message-card
+        *ngFor="let message of messageList"
+        [message]="message"
+    ></app-reciever-message-card> -->
+
+    <ng-container *ngFor="let message of messageList">
+        <app-reciever-message-card
+            [message]="message"
+        ></app-reciever-message-card>
+    </ng-container>
 </div>
