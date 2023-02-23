@@ -6,7 +6,13 @@ import { ChatRoomComponent } from './pages/chat-room/chat-room.component';
 
 const routes: Routes = [
     { path: '', component: ChatRoomComponent, canActivate: [AuthGuard] },
+    {
+        path: 'room/:id',
+        component: ChatRoomComponent,
+        canActivate: [AuthGuard],
+    },
     { path: 'auth', component: AuthComponent },
+    { path: '**', component: ChatRoomComponent },
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
-<form class="bg-light" (ngSubmit)="onSubmit($event)">
+<form class="bg-light" (ngSubmit)="onSubmit()">
     <div class="input-group">
         <input
+            #messageInput
             type="text"
             placeholder="Type a message"
             name="messageInput"

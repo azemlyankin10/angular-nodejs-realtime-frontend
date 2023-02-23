@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MessagesService } from 'src/app/services/messages.service';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { SocketChatService } from 'src/app/services/socket-chat.service';
 
 @Component({
     selector: 'app-typing-area',
@@ -7,11 +7,17 @@ import { MessagesService } from 'src/app/services/messages.service';
     styleUrls: ['./typing-area.component.scss'],
 })
 export class TypingAreaComponent {
-    constructor(private messagesService: MessagesService) {}
-    onSubmit(e: SubmitEvent) {
-        const value = new FormData(e.target as HTMLFormElement)
-            .get('messageInput')
-            ?.toString();
-        value && this.messagesService.sendMessage(value);
+    constructor(private socketChatService: SocketChatService) {}
+    @ViewChild('messageInput', { static: true }) messageInput!: ElementRef;
+
+    @Input() room = '';
+
+    onSubmit() {
+        //sent message
+        const value = this.messageInput.nativeElement.value;
+        if (!value) return;
+
+        this.socketChatService.sendChatMessage(this.room, value);
+        this.messageInput.nativeElement.value = '';
     }
 }

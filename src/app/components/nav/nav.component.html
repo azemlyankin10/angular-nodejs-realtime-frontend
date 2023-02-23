@@ -1,6 +1,8 @@
 <nav class="container px-4 navbar navbar-expand-lg navbar-light bg-light">
     <span class="navbar-brand">Chat App</span>
 
+    <app-search></app-search>
+
     <div class="show ms-auto">
         <div class="navbar-nav ms-auto">
             <div class="nav-item dropdown">
@@ -8,16 +10,13 @@
                     (click)="toggleNav()"
                     class="btn dropdown-toggle d-flex align-items-center"
                 >
-                    <span class="me-1">Andrii</span>
-                    <img
-                        class="rounded-circle"
-                        src="https://via.placeholder.com/50x50"
-                        alt="User Profile"
-                        width="30"
-                        height="30"
-                    />
+                    <span *ngIf="user">{{ user.name }}</span>
                 </button>
-                <div type="button" class="dropdown-menu show" *ngIf="isOpenNav">
+                <div
+                    type="button"
+                    class="dropdown-menu show end-0"
+                    *ngIf="isOpenNav"
+                >
                     <button type="button" class="btn dropdown-item">
                         Profile
                     </button>

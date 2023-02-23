@@ -5,12 +5,16 @@
 
     <div class="messages-box">
         <div
-            style="max-height: 90vh"
-            class="list-group rounded-0 overflow-y-scroll"
+            style="max-height: 90vh; overflow-y: scroll"
+            class="list-group rounded-0"
         >
-            <app-recent-card></app-recent-card>
-            <app-recent-card></app-recent-card>
-            <app-recent-card></app-recent-card>
+            <app-recent-card
+                *ngFor="let chat of chats"
+                [names]="chat.names"
+                [lastMessageDate]="chat.lastMessageDate"
+                [lastMessage]="chat.lastMessage"
+                [linkToChat]="chat.room"
+            ></app-recent-card>
         </div>
     </div>
 </div>

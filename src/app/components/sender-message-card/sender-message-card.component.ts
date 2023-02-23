@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./sender-message-card.component.scss'],
 })
 export class SenderMessageCardComponent {
-    @Input() message = '';
+    @Input() message: any = {};
 }

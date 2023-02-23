@@ -1,5 +1,6 @@
 <div
-    style="max-height: 90vh"
+    #chatWindow
+    style="max-height: 85vh; overflow-y: scroll"
     class="px-4 py-5 chat-box bg-white d-flex flex-column overflow-y-scroll"
 >
     <!-- Sender Message-->
@@ -13,7 +14,12 @@
 
     <ng-container *ngFor="let message of messageList">
         <app-reciever-message-card
+            *ngIf="userId === message.sender"
             [message]="message"
         ></app-reciever-message-card>
+        <app-sender-message-card
+            [message]="message"
+            *ngIf="userId !== message.sender"
+        ></app-sender-message-card>
     </ng-container>
 </div>

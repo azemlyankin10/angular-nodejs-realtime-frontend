@@ -12,12 +12,12 @@ export class AuthComponent {
 
     activeTab: AuthTab = 'login';
 
+    //toggle tabs
     toggle(tab: AuthTab) {
-        console.log(tab);
-
         this.activeTab = tab;
     }
 
+    //get data from inputs and make api request
     onLogin(e: SubmitEvent) {
         const form = new FormData(e.target as HTMLFormElement);
         const name = form.get('name')?.toString();
@@ -28,6 +28,7 @@ export class AuthComponent {
         }
     }
 
+    //get data from inputs and make api request
     onRegister(e: SubmitEvent) {
         const form = new FormData(e.target as HTMLFormElement);
         const name = form.get('name')?.toString();

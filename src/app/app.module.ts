@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { AuthComponent } from './pages/auth/auth.component';
 import { NavComponent } from './components/nav/nav.component';
+import { SearchComponent } from './components/search/search.component';
 
 const config: SocketIoConfig = { url: environment.serverUri, options: {} };
 
@@ -32,6 +33,7 @@ const config: SocketIoConfig = { url: environment.serverUri, options: {} };
         RecieverMessageCardComponent,
         AuthComponent,
         NavComponent,
+        SearchComponent,
     ],
     imports: [
         BrowserModule,

@@ -7,11 +7,22 @@
             <app-recent></app-recent>
         </div>
         <!-- Chat Box-->
-        <div class="col-7 px-0 d-flex flex-column justify-content-end h-100">
-            <app-messages-zone></app-messages-zone>
+        <div class="col-7 px-0 h-100">
+            <div
+                *ngIf="isOpenRoom"
+                class="d-flex flex-column justify-content-end h-100"
+            >
+                <app-messages-zone [roomId]="roomId"></app-messages-zone>
 
-            <!-- Typing area -->
-            <app-typing-area></app-typing-area>
+                <!-- Typing area -->
+                <app-typing-area [room]="roomId"></app-typing-area>
+            </div>
+            <div
+                *ngIf="!isOpenRoom"
+                class="h-100 d-flex justify-content-center align-items-center"
+            >
+                <p class="text-secondary fs-1">Open chat!!!</p>
+            </div>
         </div>
     </div>
 </div>
