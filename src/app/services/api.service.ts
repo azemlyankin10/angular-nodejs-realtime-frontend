@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { IChat, ICurrentChat } from 'src/interfaces/chat';
 import { IUserProfile } from 'src/interfaces/profile';
 import { LocalStorageService } from './local-storage.service';
-import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,8 +12,7 @@ import { SessionStorageService } from './session-storage.service';
 export class ApiService {
     constructor(
         private http: HttpClient,
-        private localStorageService: LocalStorageService,
-        private sessionStorageService: SessionStorageService
+        private localStorageService: LocalStorageService
     ) {}
     //get auth token from localstorage
     authToken = this.localStorageService.getItem('token');
@@ -57,8 +55,8 @@ export class ApiService {
         });
         const url = `${environment.serverUri}/profile/myProfile`;
         return this.http.get<IUserProfile>(url, { headers }).pipe(
-            tap((el) => {
-                this.sessionStorageService.setItem('userId', el._id);
+            tap(({ _id }) => {
+                this.localStorageService.setItem('userId', _id);
             })
         );
     }

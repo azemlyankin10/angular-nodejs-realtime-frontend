@@ -1,17 +1,9 @@
 <div
+    [hidden]="!isLoading"
     #chatWindow
     style="max-height: 85vh; overflow-y: scroll"
     class="px-4 py-5 chat-box bg-white d-flex flex-column overflow-y-scroll"
 >
-    <!-- Sender Message-->
-    <!-- <app-sender-message-card></app-sender-message-card> -->
-
-    <!-- Reciever Message-->
-    <!-- <app-reciever-message-card
-        *ngFor="let message of messageList"
-        [message]="message"
-    ></app-reciever-message-card> -->
-
     <ng-container *ngFor="let message of messageList">
         <app-reciever-message-card
             *ngIf="userId === message.sender"
@@ -22,4 +14,12 @@
             *ngIf="userId !== message.sender"
         ></app-sender-message-card>
     </ng-container>
+</div>
+
+<div
+    *ngIf="isLoading"
+    style="height: 50vh"
+    class="w-100 d-flex justify-content-center"
+>
+    <app-spinner></app-spinner>
 </div>

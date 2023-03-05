@@ -5,16 +5,21 @@
 
     <div class="messages-box">
         <div
+            *ngIf="!isLoading"
             style="max-height: 90vh; overflow-y: scroll"
             class="list-group rounded-0"
         >
             <app-recent-card
-                *ngFor="let chat of chats"
+                *ngFor="let chat of resentElems$ | async"
                 [names]="chat.names"
                 [lastMessageDate]="chat.lastMessageDate"
                 [lastMessage]="chat.lastMessage"
                 [linkToChat]="chat.room"
             ></app-recent-card>
+        </div>
+
+        <div *ngIf="isLoading" class="d-flex justify-content-center">
+            <app-spinner></app-spinner>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
+import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IAuthResp } from 'src/interfaces/auth';
 import { LocalStorageService } from './local-storage.service';
@@ -13,12 +13,15 @@ export class AuthService {
     constructor(
         private localStorageService: LocalStorageService,
         private http: HttpClient,
-        private router: Router
+        private location: Location
     ) {}
 
     //get token form localstorage
     isLoggedIn() {
-        return this.localStorageService.getItem('token');
+        return (
+            this.localStorageService.getItem('token') &&
+            this.localStorageService.getItem('userId')
+        );
     }
 
     // register new user
@@ -29,9 +32,15 @@ export class AuthService {
             .subscribe(
                 (res: IAuthResp) => {
                     //if success get token and redirect
-                    if ('token' in res) {
+                    if ('token' in res && 'user' in res) {
                         this.localStorageService.setItem('token', res.token);
-                        this.router.navigate(['/']);
+                        this.localStorageService.setItem(
+                            'userId',
+                            res.user?._id as string
+                        );
+
+                        this.location.go('/');
+                        window.location.reload();
                         return;
                     }
                     alert('Something went wrong!');
@@ -51,9 +60,15 @@ export class AuthService {
             .subscribe(
                 (res: IAuthResp) => {
                     //if success get token and redirect
-                    if ('token' in res) {
+                    if ('token' in res && 'user' in res) {
                         this.localStorageService.setItem('token', res.token);
-                        this.router.navigate(['/']);
+                        this.localStorageService.setItem(
+                            'userId',
+                            res.user?._id as string
+                        );
+
+                        this.location.go('/');
+                        window.location.reload();
                         return;
                     }
                     alert('Something went wrong!');
@@ -67,11 +82,10 @@ export class AuthService {
 
     //logout function
     logout() {
-        return of(this.localStorageService.removeItem('token')).subscribe(
-            () => {
-                this.router.navigate(['/auth']);
-                console.log('Logout is success');
-            }
-        );
+        this.localStorageService.removeItem('token');
+        this.localStorageService.removeItem('userId');
+        console.log('Logout is success');
+        this.location.go('/auth');
+        window.location.reload();
     }
 }

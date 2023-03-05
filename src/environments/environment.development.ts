@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    serverUri: 'http://localhost:3000',
+    serverUri: 'https://server-realtime-chat.vercel.app',
 };
