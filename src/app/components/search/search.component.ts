@@ -1,6 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { debounceTime, distinctUntilChanged, fromEvent, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    fromEvent,
+    Observable,
+    switchMap,
+} from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
+import { AppState } from 'src/app/store/app.state';
+import { addNewChatToChatList } from 'src/app/store/chats/chats.actions';
+import { ChatState } from 'src/app/store/chats/chats.reducer';
 import { IUserProfile } from 'src/interfaces/profile';
 
 @Component({
@@ -9,9 +19,15 @@ import { IUserProfile } from 'src/interfaces/profile';
     styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-    constructor(private apiService: ApiService) {}
+    constructor(
+        private apiService: ApiService,
+        private store: Store<AppState>
+    ) {
+        this.chats$ = store.select('chats');
+    }
     @ViewChild('searchInput', { static: true }) searchInput!: ElementRef;
 
+    chats$!: Observable<ChatState>;
     isOpenDropdown = false;
     searchResults: IUserProfile[] = [];
 
@@ -40,12 +56,21 @@ export class SearchComponent implements OnInit {
     //open selected chat and close dropdown
     onDropdown(e: MouseEvent) {
         const id = (e.target as HTMLElement).id;
-        this.apiService.openChat(id).subscribe((data) => {
-            //get new chat
-            // TODO: add to common state recent chats!!!
-            console.log(data);
-        });
+        this.chats$.subscribe((data) => {
+            const user = data.chatList
+                .map((el) => el.participants)
+                .flat(1)
+                .find((el) => el._id === id);
 
-        this.isOpenDropdown = false;
+            if (!user) {
+                this.apiService.openChat(id).subscribe((newChat) => {
+                    //get new chat
+                    this.store.dispatch(addNewChatToChatList({ newChat }));
+                });
+            }
+
+            this.isOpenDropdown = false;
+            this.searchInput.nativeElement.value = '';
+        });
     }
 }

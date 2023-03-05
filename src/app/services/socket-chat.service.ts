@@ -1,10 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { IMessageSocket } from 'src/interfaces/chat';
 import { LocalStorageService } from './local-storage.service';
-import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,14 +10,14 @@ import { SessionStorageService } from './session-storage.service';
 export class SocketChatService {
     constructor(
         private socket: Socket,
-        private http: HttpClient,
-        private sessionStorageService: SessionStorageService,
         private localStorageService: LocalStorageService
     ) {}
 
     getChatMessages(roomId: string): Observable<any> {
+        console.log('socket');
+
         // Create an observable to listen for chat message events from the server
-        return new Observable<[]>((observer) => {
+        return new Observable<IMessageSocket>((observer) => {
             this.socket.emit('join', roomId);
 
             this.socket.on('message', (messages: any) => {
@@ -27,32 +25,28 @@ export class SocketChatService {
             });
 
             // Clean up the observer when the component is destroyed
-            return () => {
-                this.socket.emit('leaveRoom', roomId);
-                observer.complete();
-            };
+            // return () => {
+            //     this.socket.emit('leave', roomId);
+            //     observer.complete();
+            // };
         });
     }
+
+    // leaveChatRoom(roomId: string) {
+    //     console.log('leave room');
+
+    //     // return new Observable(() => {
+    //     this.socket.emit('leave', roomId);
+    //     // });
+    // }
 
     sendChatMessage(roomId: string, message: string): void {
-        this.socket.emit('message', {
-            sender: this.sessionStorageService.getItem('userId') as string,
+        const newMessage: IMessageSocket = {
+            sender: this.localStorageService.getItem('userId') as string,
             room: roomId,
             text: message,
-        });
+            createdAt: new Date(),
+        };
+        this.socket.emit('message', newMessage);
     }
-
-    // getMessageList(roomId: string) {
-    //     console.log(roomId);
-
-    //     const headers = new HttpHeaders({
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${this.localStorageService.getItem(
-    //             'token'
-    //         )}`,
-    //     });
-    //     return this.http.get(`${environment.serverUri}/chat/${roomId}`, {
-    //         headers,
-    //     });
-    // }
 }
